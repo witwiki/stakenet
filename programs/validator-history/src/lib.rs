@@ -7,6 +7,7 @@ pub mod instructions;
 pub mod serde_varint;
 pub mod state;
 pub mod utils; 
+pub mod logs;
 
 pub use instructions::*;
 pub use state::*;
