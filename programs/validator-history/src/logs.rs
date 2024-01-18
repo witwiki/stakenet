@@ -17,3 +17,9 @@ pub struct LogReallocValidatorHistoryAccount {
     pub vote_account: Pubkey,
     pub signer: Pubkey
 }
+
+#[event]
+pub struct LogInitializedClusterHistoryAccount {
+    pub cluster_history_account: Pubkey,
+    pub signer: Pubkey
+}
