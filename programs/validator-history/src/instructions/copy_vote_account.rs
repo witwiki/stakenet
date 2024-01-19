@@ -6,7 +6,11 @@ use validator_history_vote_state::VoteStateVersions;
 use crate::logs::LogCopyVoteAccount;
 use crate::{state::ValidatorHistory, utils::cast_epoch};
 
+<<<<<<< HEAD
 #[event_cpi]
+=======
+// #[event_cpi]
+>>>>>>> 16c23d6 (renamed Log events from InitializedValidatorHistoryAccount and InitializedClusterHistoryAccount to InitializeValidatorHistoryAccount and InitializeClusterHistoryAccount to keep consistency in function names with original code)
 #[derive(Accounts)]
 pub struct CopyVoteAccount<'info> {
     #[account(
@@ -35,6 +39,7 @@ pub fn handle_copy_vote_account(ctx: Context<CopyVoteAccount>) -> Result<()> {
     let epoch_credits = VoteStateVersions::deserialize_epoch_credits(&ctx.accounts.vote_account)?;
     validator_history_account.set_epoch_credits(&epoch_credits)?;
 
+<<<<<<< HEAD
     emit_cpi!(LogCopyVoteAccount {
         validator_history_account: ctx.accounts.validator_history_account.key(),
         vote_account: ctx.accounts.vote_account.key(),
@@ -44,6 +49,13 @@ pub fn handle_copy_vote_account(ctx: Context<CopyVoteAccount>) -> Result<()> {
         slot: clock_slot,
         epoch_credits
     });
+=======
+    // emit_cpi!(LogInitializedValidatorHistoryAccount {
+    //     validator_history_account: ctx.accounts.validator_history_account.key(),
+    //     vote_account: ctx.accounts.vote_account.key(),
+    //     signer: ctx.accounts.signer.owner.key()
+    // });
+>>>>>>> 16c23d6 (renamed Log events from InitializedValidatorHistoryAccount and InitializedClusterHistoryAccount to InitializeValidatorHistoryAccount and InitializeClusterHistoryAccount to keep consistency in function names with original code)
 
     Ok(())
 }

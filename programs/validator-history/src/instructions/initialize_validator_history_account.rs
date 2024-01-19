@@ -3,10 +3,14 @@ use crate::{
     errors::ValidatorHistoryError,
     state::ValidatorHistory,
 <<<<<<< HEAD
+<<<<<<< HEAD
     logs::LogInitializedValidatorHistoryAccount,
 =======
     logs::LogInitializeValidatorHistoryAccount,
 >>>>>>> master
+=======
+    logs::LogInitializeValidatorHistoryAccount,
+>>>>>>> 16c23d6 (renamed Log events from InitializedValidatorHistoryAccount and InitializedClusterHistoryAccount to InitializeValidatorHistoryAccount and InitializeClusterHistoryAccount to keep consistency in function names with original code)
 };
 
 use anchor_lang::{prelude::*, solana_program::vote};
@@ -41,10 +45,14 @@ pub fn handle_initialize_validator_history_account(
     }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
     emit_cpi!(LogInitializedValidatorHistoryAccount {
 =======
     emit_cpi!(LogInitializeValidatorHistoryAccount {
 >>>>>>> master
+=======
+    emit_cpi!(LogInitializeValidatorHistoryAccount {
+>>>>>>> 16c23d6 (renamed Log events from InitializedValidatorHistoryAccount and InitializedClusterHistoryAccount to InitializeValidatorHistoryAccount and InitializeClusterHistoryAccount to keep consistency in function names with original code)
         validator_history_account: ctx.accounts.validator_history_account.key(),
         vote_account: ctx.accounts.vote_account.key(),
         signer: ctx.accounts.signer.owner.key()

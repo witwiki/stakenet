@@ -162,7 +162,7 @@ pub struct LogCopyGossipContactInfo {
 =======
 
 #[event]
-pub struct LogInitializedClusterHistoryAccount {
+pub struct LogInitializeClusterHistoryAccount {
     pub cluster_history_account: Pubkey,
     pub signer: Pubkey
 }
