@@ -34,3 +34,15 @@ pub struct LogCopyVoteAccount {
     pub slot: u64,
     pub epoch_credits: Vec<(u64, u64, u64)>
 }
+
+
+#[event]
+pub struct LogUpdateMevCommission {
+    pub validator_history_account: Pubkey,
+    pub vote_account: Pubkey,
+    pub config: Pubkey,
+    pub tip_distribution_account: Pubkey,
+    pub signer: Pubkey,
+    pub mev_commission_bps: u16,
+    pub epoch: u16
+}

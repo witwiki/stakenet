@@ -7,8 +7,10 @@ use crate::{
     state::{Config, ValidatorHistory},
     utils::cast_epoch,
 };
+use crate::logs::LogUpdateMevCommission;
 use jito_tip_distribution::state::TipDistributionAccount;
 
+#[event_cpi]
 #[derive(Accounts)]
 pub struct UpdateMevCommission<'info> {
     #[account(
@@ -58,6 +60,16 @@ pub fn handler(ctx: Context<UpdateMevCommission>) -> Result<()> {
     let epoch = cast_epoch(Clock::get()?.epoch);
 
     validator_history_account.set_mev_commission(epoch, mev_commission_bps)?;
+
+    emit_cpi!(LogUpdateMevCommission {
+        validator_history_account: ctx.accounts.validator_history_account.key(),
+        vote_account: ctx.accounts.vote_account.key(),
+        config: ctx.accounts.config.key(),
+        tip_distribution_account: ctx.accounts.tip_distribution_account.key(),
+        signer: ctx.accounts.signer.owner.key(),
+        mev_commission_bps,
+        epoch
+    });
 
     Ok(())
 }
