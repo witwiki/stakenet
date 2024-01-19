@@ -1,7 +1,7 @@
 use anchor_lang::prelude::*;
 
 #[event]
-pub struct LogInitializedValidatorHistoryAccount {
+pub struct LogInitializeValidatorHistoryAccount {
     pub validator_history_account: Pubkey,
     pub vote_account: Pubkey,
     pub signer: Pubkey
@@ -19,7 +19,7 @@ pub struct LogReallocValidatorHistoryAccount {
 }
 
 #[event]
-pub struct LogInitializedClusterHistoryAccount {
+pub struct LogInitializeClusterHistoryAccount {
     pub cluster_history_account: Pubkey,
     pub signer: Pubkey
 }

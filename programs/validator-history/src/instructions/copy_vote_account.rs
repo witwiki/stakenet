@@ -6,6 +6,7 @@ use validator_history_vote_state::VoteStateVersions;
 
 use crate::{state::ValidatorHistory, utils::cast_epoch};
 
+// #[event_cpi]
 #[derive(Accounts)]
 pub struct CopyVoteAccount<'info> {
     #[account(
@@ -32,6 +33,12 @@ pub fn handler(ctx: Context<CopyVoteAccount>) -> Result<()> {
 
     let epoch_credits = VoteStateVersions::deserialize_epoch_credits(&ctx.accounts.vote_account)?;
     validator_history_account.set_epoch_credits(&epoch_credits)?;
+
+    // emit_cpi!(LogInitializedValidatorHistoryAccount {
+    //     validator_history_account: ctx.accounts.validator_history_account.key(),
+    //     vote_account: ctx.accounts.vote_account.key(),
+    //     signer: ctx.accounts.signer.owner.key()
+    // });
 
     Ok(())
 }
