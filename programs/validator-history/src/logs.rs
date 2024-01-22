@@ -114,6 +114,7 @@ pub struct LogBackfillTotalBlocks {
 
 #[event]
 pub struct LogCopyClusterInfo {
+<<<<<<< HEAD
     pub cluster_history_account: Pubkey,
     // slot_history: Box<SlotHistory>,
     pub signer: Pubkey,
@@ -1647,3 +1648,13 @@ pub struct LogBackfillTotalBlocks {
     pub blocks_in_epoch: u32,
     pub signer: Pubkey
 }
+=======
+    cluster_history_account: Pubkey,
+    // slot_history: Box<SlotHistory>,
+    signer: Pubkey,
+    //// Unsure to log params below due to its conditional nature
+    // epoch: epoch,
+    // blocks_in_epoch: 
+    cluster_history_last_update_slot: u64
+}
+>>>>>>> 47ee01b (almost complete instruction: copy_cluster_info.rs. Need to figure out Box<T> definition in logs.rs for SlotHistory)
