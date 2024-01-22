@@ -77,3 +77,12 @@ pub struct LogSetNewOracleAuthority {
     pub new_oracle_authority: Pubkey,
     pub admin: Pubkey
 }
+
+#[event]
+pub struct LogBackfillTotalBlocks {
+    pub cluster_history_account: Pubkey,
+    pub config: Pubkey,
+    pub epoch: u16,
+    pub blocks_in_epoch: u32,
+    pub signer: Pubkey
+}
