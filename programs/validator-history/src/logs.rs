@@ -63,3 +63,11 @@ pub struct LogSetNewTipDistributionProgram {
     pub new_tip_distribution_program: Pubkey,
     pub admin: Pubkey
 }
+
+#[event]
+pub struct LogSetNewAdmin {
+    pub config: Pubkey,
+    pub new_admin: Pubkey,
+    pub admin: Pubkey
+}
+
