@@ -2,6 +2,7 @@ use anchor_lang::prelude::*;
 
 use crate::state::Config;
 
+#[event_cpi]
 #[derive(Accounts)]
 pub struct SetNewTipDistributionProgram<'info> {
     #[account(
@@ -19,5 +20,8 @@ pub struct SetNewTipDistributionProgram<'info> {
 
 pub fn handler(ctx: Context<SetNewTipDistributionProgram>) -> Result<()> {
     ctx.accounts.config.tip_distribution_program = ctx.accounts.new_tip_distribution_program.key();
+
+    
+
     Ok(())
 }

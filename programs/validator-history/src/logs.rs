@@ -46,3 +46,23 @@ pub struct LogUpdateMevCommission {
     pub mev_commission_bps: u16,
     pub epoch: u16
 }
+
+#[event]
+pub struct LogInitializeConfig {
+    pub config: Pubkey,
+    pub signer: Pubkey,
+    pub oracle_authority: Pubkey,
+    pub admin: Pubkey,
+    pub bump: u8,
+    pub counter: u32
+}
+
+#[event]
+pub struct LogSetNewTipDistributionProgram {
+    pub config: Pubkey,
+    pub signer: Pubkey,
+    pub oracle_authority: Pubkey,
+    pub admin: Pubkey,
+    pub bump: u8,
+    pub counter: u32
+}
