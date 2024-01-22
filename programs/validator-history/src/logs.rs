@@ -60,9 +60,6 @@ pub struct LogInitializeConfig {
 #[event]
 pub struct LogSetNewTipDistributionProgram {
     pub config: Pubkey,
-    pub signer: Pubkey,
-    pub oracle_authority: Pubkey,
-    pub admin: Pubkey,
-    pub bump: u8,
-    pub counter: u32
+    pub new_tip_distribution_program: Pubkey,
+    pub admin: Pubkey
 }

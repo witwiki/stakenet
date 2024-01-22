@@ -1,6 +1,7 @@
 use anchor_lang::prelude::*;
 
 use crate::state::Config;
+use crate::logs::LogSetNewTipDistributionProgram;
 
 #[event_cpi]
 #[derive(Accounts)]
@@ -21,7 +22,11 @@ pub struct SetNewTipDistributionProgram<'info> {
 pub fn handler(ctx: Context<SetNewTipDistributionProgram>) -> Result<()> {
     ctx.accounts.config.tip_distribution_program = ctx.accounts.new_tip_distribution_program.key();
 
-    
+    emit_cpi!(LogSetNewTipDistributionProgram {
+        config: ctx.accounts.config.key(),
+        new_tip_distribution_program: ctx.accounts.new_tip_distribution_program.key(),
+        admin: ctx.accounts.admin.owner.key()
+    });
 
     Ok(())
 }
