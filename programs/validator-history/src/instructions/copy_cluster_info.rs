@@ -4,7 +4,9 @@ use anchor_lang::{
 };
 
 use crate::{errors::ValidatorHistoryError, utils::cast_epoch, ClusterHistory};
+use crate::logs::LogCopyClusterInfo;
 
+#[event_cpi]
 #[derive(Accounts)]
 pub struct CopyClusterInfo<'info> {
     #[account(
@@ -37,6 +39,16 @@ pub fn handler(ctx: Context<CopyClusterInfo>) -> Result<()> {
     cluster_history_account.set_blocks(epoch, blocks_in_epoch(epoch, &slot_history)?)?;
 
     cluster_history_account.cluster_history_last_update_slot = clock.slot;
+
+    emit_cpi!(LogCopyClusterInfo {
+        cluster_history_account: ctx.accounts.cluster_history_account.key(),
+        // slot_history: slot_history,
+        signer: ctx.accounts.signer.owner.key(),
+        //// Unsure to log params below due to its conditional nature
+        // epoch: epoch,
+        // blocks_in_epoch: 
+        cluster_history_last_update_slot: clock.slot
+    });
 
     Ok(())
 }

@@ -1,4 +1,8 @@
-use anchor_lang::prelude::*;
+use anchor_lang::{
+    prelude::*
+    // , solana_program::{slot_history::Check}
+};
+// use borsh::BorshSerialize;
 
 #[event]
 pub struct LogInitializeValidatorHistoryAccount {
@@ -85,4 +89,15 @@ pub struct LogBackfillTotalBlocks {
     pub epoch: u16,
     pub blocks_in_epoch: u32,
     pub signer: Pubkey
+}
+
+#[event]
+pub struct LogCopyClusterInfo {
+    cluster_history_account: Pubkey,
+    // slot_history: Box<SlotHistory>,
+    signer: Pubkey,
+    //// Unsure to log params below due to its conditional nature
+    // epoch: epoch,
+    // blocks_in_epoch: 
+    cluster_history_last_update_slot: u64
 }
