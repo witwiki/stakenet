@@ -71,3 +71,9 @@ pub struct LogSetNewAdmin {
     pub admin: Pubkey
 }
 
+#[event]
+pub struct LogSetNewOracleAuthority {
+    pub config: Pubkey,
+    pub new_oracle_authority: Pubkey,
+    pub admin: Pubkey
+}

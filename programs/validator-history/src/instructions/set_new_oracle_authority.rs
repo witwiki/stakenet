@@ -1,7 +1,9 @@
 use anchor_lang::prelude::*;
 
 use crate::state::Config;
+use crate::logs::LogSetNewOracleAuthority;
 
+#[event_cpi]
 #[derive(Accounts)]
 pub struct SetNewOracleAuthority<'info> {
     #[account(
@@ -18,5 +20,12 @@ pub struct SetNewOracleAuthority<'info> {
 
 pub fn handler(ctx: Context<SetNewOracleAuthority>) -> Result<()> {
     ctx.accounts.config.oracle_authority = ctx.accounts.new_oracle_authority.key();
+
+    emit_cpi!(LogSetNewOracleAuthority {
+        config: ctx.accounts.config.key(),
+        new_oracle_authority: ctx.accounts.new_oracle_authority.key(),
+        admin: ctx.accounts.admin.owner.key()
+    });
+
     Ok(())
 }
