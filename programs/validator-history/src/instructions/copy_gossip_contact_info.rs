@@ -4,10 +4,11 @@ use anchor_lang::{
 };
 
 use crate::{
-    crds_value::CrdsData, errors::ValidatorHistoryError, state::ValidatorHistory, utils::cast_epoch,
+    crds_value::CrdsData, errors::ValidatorHistoryError, state::ValidatorHistory, utils::cast_epoch, logs::LogCopyGossipContactInfo,
 };
 use validator_history_vote_state::VoteStateVersions;
 
+#[event_cpi]
 #[derive(Accounts)]
 pub struct CopyGossipContactInfo<'info> {
     #[account(
@@ -98,6 +99,19 @@ pub fn handler(ctx: Context<CopyGossipContactInfo>) -> Result<()> {
             return Err(ValidatorHistoryError::GossipDataInvalid.into());
         }
     }
+
+    emit_cpi!(LogCopyGossipContactInfo {
+        validator_history_account: ctx.accounts.validator_history_account.key(),
+        vote_account: ctx.accounts.vote_account.key(),
+        instructions: ctx.accounts.instructions.key(),
+        signer: ctx.accounts.signer.owner.key(),
+        epoch,
+        // legacy_contact_info
+        // last_signed_ts,
+        // contact_info
+        // version,
+        // legacy_version
+    });
 
     Ok(())
 }
