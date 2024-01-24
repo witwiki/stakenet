@@ -6,6 +6,10 @@ use anchor_lang::{
 use crate::{
     crds_value::{ContactInfo, LegacyContactInfo}
 };
+
+use crate::{
+    crds_value::{ContactInfo, LegacyContactInfo}
+};
 // use borsh::BorshSerialize;
 
 #[event]
@@ -120,5 +124,32 @@ pub struct LogCopyClusterInfo {
     //// Unsure to log params below due to its conditional nature
     // epoch: epoch,
     // blocks_in_epoch: 
-    cluster_history_last_update_slot: u64
+    pub cluster_history_last_update_slot: u64
 }
+
+#[event]
+pub struct LogUpdateStakeHistory {
+    pub validator_history_account: Pubkey,
+    pub vote_account: Pubkey,
+    pub config: Pubkey,
+    pub oracle_authority: Pubkey,
+    pub epoch: u16,
+    pub lamports: u64,
+    pub rank: u32,
+    pub is_superminority: bool
+}
+
+#[event]
+pub struct LogCopyGossipContactInfo {
+    pub validator_history_account: Pubkey,
+    pub vote_account: Pubkey,
+    pub instructions: Pubkey,
+    pub signer: Pubkey,
+    pub epoch: u16,
+    // pub legacy_contact_info: LegacyContactInfo::default(),
+    // pub last_signed_ts: ,
+    // pub contact_info: &ContactInfo,
+    // pub version: ,
+    // pub legacy_version: 
+}
+
