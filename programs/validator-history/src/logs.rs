@@ -93,11 +93,23 @@ pub struct LogBackfillTotalBlocks {
 
 #[event]
 pub struct LogCopyClusterInfo {
-    cluster_history_account: Pubkey,
+    pub cluster_history_account: Pubkey,
     // slot_history: Box<SlotHistory>,
-    signer: Pubkey,
+    pub signer: Pubkey,
     //// Unsure to log params below due to its conditional nature
     // epoch: epoch,
     // blocks_in_epoch: 
-    cluster_history_last_update_slot: u64
+    pub cluster_history_last_update_slot: u64
+}
+
+#[event]
+pub struct LogUpdateStakeHistory {
+    pub validator_history_account: Pubkey,
+    pub vote_account: Pubkey,
+    pub config: Pubkey,
+    pub oracle_authority: Pubkey,
+    pub epoch: u16,
+    pub lamports: u64,
+    pub rank: u32,
+    pub is_superminority: bool
 }
