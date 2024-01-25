@@ -1,7 +1,7 @@
 use crate::{
     constants::MAX_ALLOC_BYTES,
     state::{Config, ValidatorHistory, ValidatorHistoryEntry, ValidatorHistoryVersion},
-    logs::LogReallocValidatorHistoryAccount,
+    logs::LogReallocValidatorHistoryAccount
 };
 use anchor_lang::{prelude::*, solana_program::vote};
 
@@ -74,12 +74,12 @@ pub fn handler(ctx: Context<ReallocValidatorHistoryAccount>) -> Result<()> {
     emit_cpi!(LogReallocValidatorHistoryAccount {
         validator_history_account: ctx.accounts.validator_history_account.key(),
         config: ctx.accounts.config.key(),
-        bump: *ctx.bumps.get("validator_history_account").unwrap(),
-        struct_version: ValidatorHistoryVersion::V0 as u32,
-        // history_idx: (ctx.accounts.validator_history_account.history.arr.len() - 1),
-        // history_idx: (ctx.accounts.validator_history_account.history.arr.len() - 1) as u64,
         vote_account: ctx.accounts.vote_account.key(),
-        signer: ctx.accounts.signer.owner.key()
+        system_program: ctx.accounts.system_program.key(),
+        signer: ctx.accounts.signer.owner.key(),
+        bump: (*ctx.accounts.validator_history_account.load_mut()?).bump,                                   //*ctx.bumps.get("validator_history_account").unwrap(),
+        struct_version: (*ctx.accounts.validator_history_account.load_mut()?).struct_version,               //ValidatorHistoryVersion::V0 as u32,
+        history_idx: (*ctx.accounts.validator_history_account.load_mut()?).history.idx 
     });
 
     Ok(())

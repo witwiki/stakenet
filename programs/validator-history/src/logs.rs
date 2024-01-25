@@ -19,11 +19,13 @@ pub struct LogInitializeValidatorHistoryAccount {
 pub struct LogReallocValidatorHistoryAccount {
     pub validator_history_account: Pubkey,
     pub config: Pubkey,
+    pub vote_account: Pubkey,
+    pub system_program: Pubkey,
+    pub signer: Pubkey,
     pub bump: u8,
     pub struct_version: u32,
-    // pub history_idx: u64,
-    pub vote_account: Pubkey,
-    pub signer: Pubkey
+    pub history_idx: u64
+
 }
 
 #[event]
@@ -129,6 +131,6 @@ pub struct LogCopyGossipContactInfo {
     // pub last_signed_ts: ,
     // pub contact_info: &ContactInfo,
     // pub version: ,
-    // pub legacy_version: 
+    // pub legacy_version: CircBuf::default();
 }
 
