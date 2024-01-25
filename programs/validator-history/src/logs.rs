@@ -150,6 +150,6 @@ pub struct LogCopyGossipContactInfo {
     // pub last_signed_ts: ,
     // pub contact_info: &ContactInfo,
     // pub version: ,
-    // pub legacy_version: 
+    // pub legacy_version: CircBuf::default();
 }
 
