@@ -2,10 +2,13 @@ use crate::{
     constants::{MAX_ALLOC_BYTES, MIN_VOTE_EPOCHS},
     errors::ValidatorHistoryError,
     state::ValidatorHistory,
+    logs::LogInitializedValidatorHistoryAccount,
 };
+
 use anchor_lang::{prelude::*, solana_program::vote};
 use validator_history_vote_state::VoteStateVersions;
 
+#[event_cpi]
 #[derive(Accounts)]
 pub struct InitializeValidatorHistoryAccount<'info> {
     #[account(
@@ -32,5 +35,13 @@ pub fn handle_initialize_validator_history_account(
     if epoch_credits.len() < MIN_VOTE_EPOCHS {
         return Err(ValidatorHistoryError::NotEnoughVotingHistory.into());
     }
+
+    emit_cpi!(LogInitializedValidatorHistoryAccount {
+        validator_history_account: ctx.accounts.validator_history_account.key(),
+        vote_account: ctx.accounts.vote_account.key(),
+        signer: ctx.accounts.signer.owner.key()
+    });
+
     Ok(())
 }
+
