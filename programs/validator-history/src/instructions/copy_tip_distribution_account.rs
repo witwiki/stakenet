@@ -6,9 +6,14 @@ use crate::{
     utils::cast_epoch,
     utils::fixed_point_sol,
 };
+<<<<<<< HEAD:programs/validator-history/src/instructions/update_mev_commission.rs
+use crate::logs::LogUpdateMevCommission;
+=======
 
+>>>>>>> upstream/master:programs/validator-history/src/instructions/copy_tip_distribution_account.rs
 use jito_tip_distribution::state::TipDistributionAccount;
 
+#[event_cpi]
 #[derive(Accounts)]
 #[instruction(epoch: u64)]
 pub struct CopyTipDistributionAccount<'info> {
@@ -71,6 +76,16 @@ pub fn handle_copy_tip_distribution_account(
     }
 
     validator_history_account.set_mev_commission(epoch, mev_commission_bps, mev_earned)?;
+
+    emit_cpi!(LogUpdateMevCommission {
+        validator_history_account: ctx.accounts.validator_history_account.key(),
+        vote_account: ctx.accounts.vote_account.key(),
+        config: ctx.accounts.config.key(),
+        tip_distribution_account: ctx.accounts.tip_distribution_account.key(),
+        signer: ctx.accounts.signer.owner.key(),
+        mev_commission_bps,
+        epoch
+    });
 
     Ok(())
 }

@@ -1,7 +1,9 @@
 use anchor_lang::prelude::*;
 
 use crate::{errors::ValidatorHistoryError, utils::cast_epoch, ClusterHistory, Config};
+use crate::logs::LogBackfillTotalBlocks;
 
+#[event_cpi]
 #[derive(Accounts)]
 pub struct BackfillTotalBlocks<'info> {
     #[account(
@@ -31,6 +33,14 @@ pub fn handle_backfill_total_blocks(
         return Err(ValidatorHistoryError::EpochOutOfRange.into());
     }
     cluster_history_account.set_blocks(epoch, blocks_in_epoch)?;
+
+    emit_cpi!(LogBackfillTotalBlocks {
+        cluster_history_account: ctx.accounts.cluster_history_account.key(),
+        config: ctx.accounts.config.key(),
+        epoch: epoch,
+        blocks_in_epoch: blocks_in_epoch,
+        signer: ctx.accounts.signer.owner.key()
+    });
 
     Ok(())
 }

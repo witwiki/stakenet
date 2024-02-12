@@ -3,9 +3,10 @@ use anchor_lang::{
     solana_program::{clock::Clock, vote},
 };
 use validator_history_vote_state::VoteStateVersions;
-
+use crate::logs::LogCopyVoteAccount;
 use crate::{state::ValidatorHistory, utils::cast_epoch};
 
+#[event_cpi]
 #[derive(Accounts)]
 pub struct CopyVoteAccount<'info> {
     #[account(
@@ -26,12 +27,23 @@ pub fn handle_copy_vote_account(ctx: Context<CopyVoteAccount>) -> Result<()> {
     let mut validator_history_account = ctx.accounts.validator_history_account.load_mut()?;
     let clock = Clock::get()?;
     let epoch = cast_epoch(clock.epoch);
+    let clock_slot = clock.slot;
 
     let commission = VoteStateVersions::deserialize_commission(&ctx.accounts.vote_account)?;
     validator_history_account.set_commission_and_slot(epoch, commission, clock.slot)?;
 
     let epoch_credits = VoteStateVersions::deserialize_epoch_credits(&ctx.accounts.vote_account)?;
     validator_history_account.set_epoch_credits(&epoch_credits)?;
+
+    emit_cpi!(LogCopyVoteAccount {
+        validator_history_account: ctx.accounts.validator_history_account.key(),
+        vote_account: ctx.accounts.vote_account.key(),
+        signer: ctx.accounts.signer.owner.key(),
+        epoch,
+        commission,
+        slot: clock_slot,
+        epoch_credits
+    });
 
     Ok(())
 }

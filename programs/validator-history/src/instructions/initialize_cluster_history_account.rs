@@ -1,6 +1,8 @@
 use crate::{constants::MAX_ALLOC_BYTES, ClusterHistory};
+use crate::logs::LogInitializeClusterHistoryAccount;
 use anchor_lang::prelude::*;
 
+#[event_cpi]
 #[derive(Accounts)]
 pub struct InitializeClusterHistoryAccount<'info> {
     #[account(
@@ -16,8 +18,18 @@ pub struct InitializeClusterHistoryAccount<'info> {
     pub signer: Signer<'info>,
 }
 
+<<<<<<< HEAD
+pub fn handler(ctx: Context<InitializeClusterHistoryAccount>) -> Result<()> {
+
+    emit_cpi!(LogInitializeClusterHistoryAccount {
+        cluster_history_account: ctx.accounts.cluster_history_account.key(),
+        signer: ctx.accounts.signer.owner.key()
+    });
+
+=======
 pub fn handle_initialize_cluster_history_account(
     _: Context<InitializeClusterHistoryAccount>,
 ) -> Result<()> {
+>>>>>>> upstream/master
     Ok(())
 }

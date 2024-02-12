@@ -2,9 +2,11 @@ use crate::{
     errors::ValidatorHistoryError,
     state::{Config, ValidatorHistory},
     utils::cast_epoch,
+    logs::LogUpdateStakeHistory
 };
 use anchor_lang::{prelude::*, solana_program::vote};
 
+#[event_cpi]
 #[derive(Accounts)]
 pub struct UpdateStakeHistory<'info> {
     #[account(
@@ -45,6 +47,18 @@ pub fn handle_update_stake_history(
     let epoch = cast_epoch(epoch);
 
     validator_history_account.set_stake(epoch, lamports, rank, is_superminority)?;
+
+
+    emit_cpi!(LogUpdateStakeHistory {
+        validator_history_account: ctx.accounts.validator_history_account.key(),
+        vote_account: ctx.accounts.vote_account.key(),
+        config: ctx.accounts.config.key(),
+        oracle_authority: ctx.accounts.oracle_authority.owner.key(),
+        epoch,
+        lamports,
+        rank,
+        is_superminority
+    });
 
     Ok(())
 }

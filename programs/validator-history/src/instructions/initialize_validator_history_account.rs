@@ -2,7 +2,11 @@ use crate::{
     constants::{MAX_ALLOC_BYTES, MIN_VOTE_EPOCHS},
     errors::ValidatorHistoryError,
     state::ValidatorHistory,
+<<<<<<< HEAD
     logs::LogInitializedValidatorHistoryAccount,
+=======
+    logs::LogInitializeValidatorHistoryAccount,
+>>>>>>> master
 };
 
 use anchor_lang::{prelude::*, solana_program::vote};
@@ -36,7 +40,11 @@ pub fn handle_initialize_validator_history_account(
         return Err(ValidatorHistoryError::NotEnoughVotingHistory.into());
     }
 
+<<<<<<< HEAD
     emit_cpi!(LogInitializedValidatorHistoryAccount {
+=======
+    emit_cpi!(LogInitializeValidatorHistoryAccount {
+>>>>>>> master
         validator_history_account: ctx.accounts.validator_history_account.key(),
         vote_account: ctx.accounts.vote_account.key(),
         signer: ctx.accounts.signer.owner.key()

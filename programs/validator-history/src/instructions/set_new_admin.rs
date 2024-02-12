@@ -1,7 +1,9 @@
 use anchor_lang::prelude::*;
 
 use crate::state::Config;
+use crate::logs::LogSetNewAdmin;
 
+#[event_cpi]
 #[derive(Accounts)]
 pub struct SetNewAdmin<'info> {
     #[account(
@@ -18,5 +20,12 @@ pub struct SetNewAdmin<'info> {
 
 pub fn handle_set_new_admin(ctx: Context<SetNewAdmin>) -> Result<()> {
     ctx.accounts.config.admin = ctx.accounts.new_admin.key();
+
+    emit_cpi!(LogSetNewAdmin {
+        config: ctx.accounts.config.key(),
+        new_admin: ctx.accounts.new_admin.key(),
+        admin: ctx.accounts.admin.owner.key()
+    });
+
     Ok(())
 }
