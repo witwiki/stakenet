@@ -1,16 +1,10 @@
 use anchor_lang::{
     prelude::*
-    // , solana_program::{slot_history::Check}
 };
 
 use crate::{
     crds_value::{ContactInfo, LegacyContactInfo}
 };
-
-use crate::{
-    crds_value::{ContactInfo, LegacyContactInfo}
-};
-// use borsh::BorshSerialize;
 
 #[event]
 pub struct LogInitializeValidatorHistoryAccount {
@@ -19,16 +13,10 @@ pub struct LogInitializeValidatorHistoryAccount {
     pub signer: Pubkey
 }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-=======
->>>>>>> 5c2f60e (mostly finished with 'LogReallocValidatorHistoryAccount' but can't seem to get the 'history_idx' logged yet.)
 #[event]
 pub struct LogReallocValidatorHistoryAccount {
     pub validator_history_account: Pubkey,
     pub config: Pubkey,
-<<<<<<< HEAD
     pub vote_account: Pubkey,
     pub system_program: Pubkey,
     pub signer: Pubkey,
