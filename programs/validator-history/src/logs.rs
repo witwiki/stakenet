@@ -25,7 +25,16 @@ pub struct LogReallocValidatorHistoryAccount {
     pub bump: u8,
     pub struct_version: u32,
     pub history_idx: u64
+}
 
+#[event]
+pub struct LogReallocClusterHistoryAccount {
+    pub cluster_history_account: Pubkey,
+    pub system_program: Pubkey,
+    pub signer: Pubkey,
+    pub bump: u8,
+    pub struct_version: u64,
+    pub history_idx: u64
 }
 
 #[event]

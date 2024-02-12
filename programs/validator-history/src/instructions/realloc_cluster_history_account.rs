@@ -1,4 +1,6 @@
 use crate::{constants::MAX_ALLOC_BYTES, ClusterHistory, ClusterHistoryEntry};
+use crate::logs::LogReallocClusterHistoryAccount;
+
 use anchor_lang::prelude::*;
 
 fn get_realloc_size(account_info: &AccountInfo) -> usize {
@@ -22,6 +24,7 @@ fn is_initialized(account_info: &AccountInfo) -> Result<bool> {
     Ok(vote_account_pubkey_bytes.iter().any(|&x| x != 0))
 }
 
+#[event_cpi]
 #[derive(Accounts)]
 pub struct ReallocClusterHistoryAccount<'info> {
     #[account(
@@ -57,6 +60,16 @@ pub fn handler(ctx: Context<ReallocClusterHistoryAccount>) -> Result<()> {
         }
         cluster_history_account.history.is_empty = 1;
     }
+
+
+    emit_cpi!(LogReallocClusterHistoryAccount {
+        cluster_history_account: ctx.accounts.cluster_history_account.key(),
+        system_program: ctx.accounts.system_program.key(),
+        signer: ctx.accounts.signer.owner.key(),
+        bump: (*ctx.accounts.cluster_history_account.load_mut()?).bump,                                   //*ctx.bumps.get("validator_history_account").unwrap(),
+        struct_version: (*ctx.accounts.cluster_history_account.load_mut()?).struct_version,               //ValidatorHistoryVersion::V0 as u32,
+        history_idx: (*ctx.accounts.cluster_history_account.load_mut()?).history.idx 
+    });    
 
     Ok(())
 }
