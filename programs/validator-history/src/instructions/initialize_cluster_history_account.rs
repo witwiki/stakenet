@@ -18,6 +18,7 @@ pub struct InitializeClusterHistoryAccount<'info> {
     pub signer: Signer<'info>,
 }
 
+<<<<<<< HEAD
 pub fn handler(ctx: Context<InitializeClusterHistoryAccount>) -> Result<()> {
 
     emit_cpi!(LogInitializeClusterHistoryAccount {
@@ -25,5 +26,10 @@ pub fn handler(ctx: Context<InitializeClusterHistoryAccount>) -> Result<()> {
         signer: ctx.accounts.signer.owner.key()
     });
 
+=======
+pub fn handle_initialize_cluster_history_account(
+    _: Context<InitializeClusterHistoryAccount>,
+) -> Result<()> {
+>>>>>>> upstream/master
     Ok(())
 }

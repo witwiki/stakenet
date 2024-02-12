@@ -15,7 +15,8 @@ use solana_sdk::{
 use std::{cell::RefCell, rc::Rc};
 
 use jito_tip_distribution::{
-    sdk::derive_tip_distribution_account_address, state::TipDistributionAccount,
+    sdk::derive_tip_distribution_account_address,
+    state::{MerkleRoot, TipDistributionAccount},
 };
 use validator_history::{self, constants::MAX_ALLOC_BYTES, ClusterHistory, ValidatorHistory};
 
@@ -38,16 +39,11 @@ impl TestFixture {
 
            Returns a fixture with relevant account addresses and keypairs.
         */
-        let mut program = ProgramTest::new(
-            "validator-history",
-            validator_history::ID,
-            processor!(validator_history::entry),
-        );
-        program.add_program(
-            "jito-tip-distribution",
-            jito_tip_distribution::id(),
-            processor!(jito_tip_distribution::entry),
-        );
+
+        // prefer bpf on this to not run as a built-in program with actual runtime limitations
+        // make sure the program is compiled and SBF_OUT_DIR is set correctly when running this!
+        let mut program = ProgramTest::new("validator_history", validator_history::ID, None);
+        program.add_program("jito_tip_distribution", jito_tip_distribution::id(), None);
 
         let epoch = 0;
         let vote_account = Pubkey::new_unique();
@@ -326,10 +322,19 @@ pub fn new_vote_account(
     }
 }
 
-pub fn new_tip_distribution_account(vote_account: Pubkey, mev_commission_bps: u16) -> Account {
+pub fn new_tip_distribution_account(
+    vote_account: Pubkey,
+    mev_commission_bps: u16,
+    mev_earned: u64,
+) -> Account {
+    let merkle_root = MerkleRoot {
+        max_total_claim: mev_earned,
+        ..Default::default()
+    };
     let tda = TipDistributionAccount {
         validator_vote_account: vote_account,
         validator_commission_bps: mev_commission_bps,
+        merkle_root: Some(merkle_root),
         ..TipDistributionAccount::default()
     };
     let mut data = vec![];

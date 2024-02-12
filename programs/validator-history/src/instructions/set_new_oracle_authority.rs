@@ -18,7 +18,7 @@ pub struct SetNewOracleAuthority<'info> {
     pub admin: Signer<'info>,
 }
 
-pub fn handler(ctx: Context<SetNewOracleAuthority>) -> Result<()> {
+pub fn handle_set_new_oracle_authority(ctx: Context<SetNewOracleAuthority>) -> Result<()> {
     ctx.accounts.config.oracle_authority = ctx.accounts.new_oracle_authority.key();
 
     emit_cpi!(LogSetNewOracleAuthority {
