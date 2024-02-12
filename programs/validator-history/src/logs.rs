@@ -157,4 +157,13 @@ pub struct LogCopyGossipContactInfo {
     pub vote_account: Pubkey,
     pub signer: Pubkey
 }
+<<<<<<< HEAD
 >>>>>>> 5c2f60e (mostly finished with 'LogReallocValidatorHistoryAccount' but can't seem to get the 'history_idx' logged yet.)
+=======
+
+#[event]
+pub struct LogInitializedClusterHistoryAccount {
+    pub cluster_history_account: Pubkey,
+    pub signer: Pubkey
+}
+>>>>>>> 731f799 (completed logging the InitializeClusterHistoryAccount with LogInitializedClusterHistoryAccount)
